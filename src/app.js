@@ -35,17 +35,15 @@ app.put("/repositories/:id", (request, response) => {
   const { title, url, techs } = request.body;
   const { id } = request.params;
 
-  const repository = repositories.find(repository => repository.id === id);
+  let repository = repositories.find(repository => repository.id === id);
 
   if(!repository) {
     return response.status(400).json({ error: 'Repository not found.'})
   }
 
-  repository.title = title;
-  repository.url = url;
-  repository.techs = techs;
+  repository = {...repository, title, url, techs}
 
-  response.json(repository);
+  return response.json(repository);
 });
 
 app.delete("/repositories/:id", (request, response) => {
